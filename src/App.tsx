@@ -1,26 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, useState} from 'react'
+import './App.css'
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import Home from './component/Home/home'
+import QuizDetails from './component/QuizDetails/QuizDetails'
+import CreateQuiz from './component/CreateQuiz/CreateQuiz'
 
 function App() {
+  const [data, setData] = useState<any>()
+
+  useEffect(() => {
+    const controller = new AbortController()
+    const {signal} = controller
+
+    fetch('http://localhost:3000/quiz', {signal})
+      .then(response => response.json())
+      .then(data => setData(data))
+      .catch(error => {
+        if (error.name === 'AbortError') {
+          console.log('Fetch aborted')
+        } else {
+          console.log(error)
+        }
+      })
+
+    return () => {
+      controller.abort()
+    }
+  }, [])
+
+  if (!data) return <div>Loading...</div>
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+      <div>
+        <Routes>
+          <Route path="/" element={<Home quizs={data} />} />
+          <Route path="/quiz/:id" element={<QuizDetails quizs={data} />} />
+          <Route path="/createQuiz" element={<CreateQuiz />} />
+        </Routes>
+      </div>
+    </Router>
+  )
 }
 
-export default App;
+export default App
