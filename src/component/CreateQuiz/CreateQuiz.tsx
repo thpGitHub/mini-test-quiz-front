@@ -24,44 +24,77 @@ const NewQuizForm: React.FC = () => {
     categories: [],
   })
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fieldName: string = e.target.value
-    console.log("e.target.name",e.target.name);
-    
-    setQuizData(prevQuizData => ({
-      ...prevQuizData,
-      name: fieldName,
-    }))
-  }
-  //   const handleInputChange = (
-  //     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  //     roundIndex: number,
-  //     responseIndex?: number
-  //   ) => {
-  //     const { name, value } = e.target;
+  const handleInputChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    const fieldName: string = e.target.name
+    const fieldValue: string = e.target.value
 
-  //     if (name.startsWith('rounds[')) {
-  //       const [, field, index, subfield] = name.match(/rounds\[(\d+)\]\.(\w+)\[(\d+)\]\.(\w+)/) || [];
-  //       if (field && index && subfield) {
-  //         setQuizData((prevData) => ({
-  //           ...prevData,
-  //           rounds: prevData.rounds.map((round, i) => {
-  //             if (i === Number(index)) {
-  //               return {
-  //                 ...round,
-  //                 [field as keyof typeof round]: round[field as keyof typeof round].map((sub, j) =>
-  //                   j === Number(subfield) ? value : sub
-  //                 ),
-  //               };
-  //             }
-  //             return round;
-  //           }),
-  //         }));
-  //       }
-  //     } else {
-  //       setQuizData((prevData) => ({ ...prevData, [name]: value }));
-  //     }
-  //   };
+    console.log('fieldName', fieldName)
+    console.log('fieldValue', fieldValue)
+
+    if (fieldName === 'name') {
+      setQuizData(prevQuizData => ({
+        ...prevQuizData,
+        name: fieldValue,
+      }))
+    }
+
+    if (fieldName === 'question') {
+      setQuizData(prevQuizData => ({
+        ...prevQuizData,
+        rounds: [
+          {
+            ...prevQuizData.rounds[0],
+            questions: fieldValue,
+          },
+        ],
+      }))
+    }
+    // `rounds[${roundIndex}].responses[${responseIndex}]`
+    if (fieldName === 'rounds[0].responses[0]') {
+      console.log('fieldResponse', fieldName)
+
+      setQuizData(prevQuizData => ({
+        ...prevQuizData,
+        rounds: [
+          {
+            ...prevQuizData.rounds[0],
+            responses: [fieldValue, prevQuizData.rounds[0].responses[1]],
+          },
+        ],
+      }))
+    }
+    if (fieldName === 'rounds[0].responses[1]') {
+      console.log('fieldResponse', fieldName)
+
+      setQuizData(prevQuizData => ({
+        ...prevQuizData,
+        rounds: [
+          {
+            ...prevQuizData.rounds[0],
+            responses: [prevQuizData.rounds[0].responses[0], fieldValue],
+          },
+        ],
+      }))
+    }
+    // `rounds[${roundIndex}].corrects`
+    if (fieldName === 'rounds[0].corrects') {
+      console.log('correct', fieldName)
+
+      setQuizData(prevQuizData => ({
+        ...prevQuizData,
+        rounds: [
+          {
+            ...prevQuizData.rounds[0],
+            corrects: [+fieldValue],
+          },
+        ],
+      }))
+    }
+  }
 
   const handleAddRound = () => {
     setQuizData(prevData => ({
@@ -88,7 +121,7 @@ const NewQuizForm: React.FC = () => {
     e.preventDefault()
 
     try {
-      await axios.post('/api/quizzes', quizData) // Adjust the API endpoint as per your setup
+      await axios.post('http://localhost:3000/create', quizData) // Adjust the API endpoint as per your setup
       alert('Quiz created successfully!')
       // Reset form or redirect to a different page
     } catch (error) {
@@ -119,9 +152,11 @@ const NewQuizForm: React.FC = () => {
             <input
               type="text"
               id={`rounds[${roundIndex}].questions`}
-              name={`rounds[${roundIndex}].questions`}
-              value={round.questions}
+              // name={`rounds[${roundIndex}].questions`}
+              name="question"
+              value={quizData.rounds[roundIndex].questions}
               //   onChange={(e) => handleInputChange(e, roundIndex)}
+              onChange={handleInputChange}
             />
           </div>
 
@@ -138,6 +173,7 @@ const NewQuizForm: React.FC = () => {
                 name={`rounds[${roundIndex}].responses[${responseIndex}]`}
                 value={response}
                 // onChange={(e) => handleInputChange(e, roundIndex, responseIndex)}
+                onChange={handleInputChange}
               />
             </div>
           ))}
@@ -151,6 +187,7 @@ const NewQuizForm: React.FC = () => {
               name={`rounds[${roundIndex}].corrects`}
               value={round.corrects[0]}
               //   onChange={(e) => handleInputChange(e, roundIndex)}
+              onChange={handleInputChange}
             >
               {round.responses.map((_, index) => (
                 <option key={index} value={index}>
