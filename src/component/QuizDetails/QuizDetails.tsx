@@ -1,44 +1,53 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import {Link, useNavigate, useParams} from 'react-router-dom'
 
 import Alert, {AlertColor} from '@mui/material/Alert'
+import useFetchQuizs from '../../hooks/useFetchQuizs'
+import QuizContext from '../../context/QuizContext'
 
-type QuizListProps = {
-  quizs: {
-    _id: string
-    rounds: {
-      questions: string
-      responses: string[]
-      corrects: number[]
-    }[]
-    categories: string[]
-    name: string
-  }[]
-}
+// type QuizListProps = {
+//   quizs: {
+//     _id: string
+//     rounds: {
+//       questions: string
+//       responses: string[]
+//       corrects: number[]
+//     }[]
+//     categories: string[]
+//     name: string
+//   }[]
+// }
 
-const QuizDetails = ({quizs}: QuizListProps) => {
+const QuizDetails = () => {
+  const {quizs} = useFetchQuizs()
+  // const quizs = useContext(QuizContext)
+
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [showAlert, setShowAlert] = useState<AlertColor | undefined>()
   const [messageAlert, setMessageAlert] = useState('')
   const [score, setScore] = useState(0)
-
+  
   const navigate = useNavigate()
   const {id} = useParams()
-
-  const quizName = quizs[Number(id)].name
-  const questionDescription =
-    quizs[Number(id)].rounds[currentQuestion].questions
-  const responsesList = quizs[Number(id)].rounds[currentQuestion].responses
-  const indexGoodResponse =
-    quizs[Number(id)].rounds[currentQuestion].corrects[0]
-  const numberOfQuestions = quizs[Number(id)].rounds.length
-
-  console.log(quizs)
-  console.log('correct', indexGoodResponse)
 
   if (!quizs) {
     return <div>Loading...</div>
   }
+
+  const quizName = quizs[Number(id)].name
+  const questionDescription =
+    quizs[Number(id)].rounds[currentQuestion].questions
+
+  const responsesList: string[] =
+    quizs[Number(id)].rounds[currentQuestion].responses
+
+  const indexGoodResponse =
+    quizs[Number(id)].rounds[currentQuestion].corrects[0]
+
+  const numberOfQuestions = quizs[Number(id)].rounds.length
+
+  console.log(quizs)
+  console.log('correct', indexGoodResponse)
 
   const isGoodResponse = (indexResponse: number): boolean => {
     return indexResponse === indexGoodResponse
@@ -55,7 +64,7 @@ const QuizDetails = ({quizs}: QuizListProps) => {
     if (isGood) {
       setShowAlert('success')
       setMessageAlert('Bonne réponse')
-      setScore(prevScore => prevScore + 1) 
+      setScore(prevScore => prevScore + 1)
 
       setTimeout(() => {
         setShowAlert(undefined)
@@ -70,7 +79,6 @@ const QuizDetails = ({quizs}: QuizListProps) => {
         setTimeout(() => {
           navigate('/')
         }, 3000)
-
       } else {
         setCurrentQuestion(prevQuestion => prevQuestion + 1)
       }
@@ -82,7 +90,6 @@ const QuizDetails = ({quizs}: QuizListProps) => {
 
   return (
     <>
-      {/* {showAlert && <Alert severity="error">This is an error alert — check it out!</Alert>} */}
       {showAlert && <Alert severity={showAlert}>{messageAlert}</Alert>}
 
       <Link to={'/'}>
