@@ -5,6 +5,8 @@ import Home from './component/Home/home'
 import QuizDetails from './component/QuizDetails/QuizDetails'
 import CreateQuiz from './component/CreateQuiz/CreateQuiz'
 import QuizContextProvider from './context/QuizContext'
+import Login from './component/Authenticate/Login'
+import Register from './component/Authenticate/Register'
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
         <QuizContextProvider>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/quiz/:id" element={<QuizDetails />} />
             <Route path="/createQuiz" element={<CreateQuiz />} />
           </Routes>

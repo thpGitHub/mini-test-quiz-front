@@ -35,7 +35,7 @@ const useFetchQuizs = () => {
     fetchQuizs()
   }, [])
 
-  return {quizs, isLoading, error}
+  return {quizs, isLoading, error, setQuizs}
 }
 
 export default useFetchQuizs

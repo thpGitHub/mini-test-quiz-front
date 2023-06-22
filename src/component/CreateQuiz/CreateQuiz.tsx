@@ -1,11 +1,13 @@
 import React, {useState, ChangeEvent} from 'react'
+import './createQuiz.css'
 import axios from 'axios'
+import {Link} from 'react-router-dom'
 
 interface QuizData {
   name: string
   rounds: {
     questions: string
-    responses: string[]
+    reponses: string[]
     corrects: number[]
   }[]
   categories: string[]
@@ -17,7 +19,7 @@ const NewQuizForm: React.FC = () => {
     rounds: [
       {
         questions: '',
-        responses: ['', ''],
+        reponses: ['', ''],
         corrects: [0],
       },
     ],
@@ -54,7 +56,7 @@ const NewQuizForm: React.FC = () => {
       }))
     }
     // `rounds[${roundIndex}].responses[${responseIndex}]`
-    if (fieldName === 'rounds[0].responses[0]') {
+    if (fieldName === 'rounds[0].reponses[0]') {
       console.log('fieldResponse', fieldName)
 
       setQuizData(prevQuizData => ({
@@ -62,12 +64,12 @@ const NewQuizForm: React.FC = () => {
         rounds: [
           {
             ...prevQuizData.rounds[0],
-            responses: [fieldValue, prevQuizData.rounds[0].responses[1]],
+            reponses: [fieldValue, prevQuizData.rounds[0].reponses[1]],
           },
         ],
       }))
     }
-    if (fieldName === 'rounds[0].responses[1]') {
+    if (fieldName === 'rounds[0].reponses[1]') {
       console.log('fieldResponse', fieldName)
 
       setQuizData(prevQuizData => ({
@@ -75,7 +77,7 @@ const NewQuizForm: React.FC = () => {
         rounds: [
           {
             ...prevQuizData.rounds[0],
-            responses: [prevQuizData.rounds[0].responses[0], fieldValue],
+            reponses: [prevQuizData.rounds[0].reponses[0], fieldValue],
           },
         ],
       }))
@@ -103,7 +105,7 @@ const NewQuizForm: React.FC = () => {
         ...prevData.rounds,
         {
           questions: '',
-          responses: ['', ''],
+          reponses: ['', ''],
           corrects: [0],
         },
       ],
@@ -124,6 +126,17 @@ const NewQuizForm: React.FC = () => {
       await axios.post('http://localhost:3000/create', quizData) // Adjust the API endpoint as per your setup
       alert('Quiz created successfully!')
       // Reset form or redirect to a different page
+      setQuizData({
+        name: '',
+        rounds: [
+          {
+            questions: '',
+            reponses: ['', ''],
+            corrects: [0],
+          },
+        ],
+        categories: [],
+      })
     } catch (error) {
       console.error('Failed to create quiz:', error)
       alert('Failed to create quiz. Please try again later.')
@@ -131,84 +144,94 @@ const NewQuizForm: React.FC = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="name">Quiz Name:</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={quizData.name}
-          onChange={handleInputChange}
-        />
-      </div>
+    <>
+      <Link to={'/'} className="quiz-details-link">
+        <button className="quiz-details-button">Liste des Quizs</button>
+      </Link>
+      <form className="quiz-form-container" onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="name">Quiz Name:</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={quizData.name}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
 
-      {quizData.rounds.map((round, roundIndex) => (
-        <div key={roundIndex}>
-          <h3>Round {roundIndex + 1}</h3>
+        {quizData.rounds.map((round, roundIndex) => (
+          <div key={roundIndex}>
+            <h3>Round {roundIndex + 1}</h3>
 
-          <div>
-            <label htmlFor={`rounds[${roundIndex}].questions`}>Question:</label>
-            <input
-              type="text"
-              id={`rounds[${roundIndex}].questions`}
-              // name={`rounds[${roundIndex}].questions`}
-              name="question"
-              value={quizData.rounds[roundIndex].questions}
-              //   onChange={(e) => handleInputChange(e, roundIndex)}
-              onChange={handleInputChange}
-            />
-          </div>
-
-          {round.responses.map((response, responseIndex) => (
-            <div key={responseIndex}>
-              <label
-                htmlFor={`rounds[${roundIndex}].responses[${responseIndex}]`}
-              >
-                Response {responseIndex + 1}:
+            <div>
+              <label htmlFor={`rounds[${roundIndex}].questions`}>
+                Question:
               </label>
               <input
                 type="text"
-                id={`rounds[${roundIndex}].responses[${responseIndex}]`}
-                name={`rounds[${roundIndex}].responses[${responseIndex}]`}
-                value={response}
-                // onChange={(e) => handleInputChange(e, roundIndex, responseIndex)}
+                id={`rounds[${roundIndex}].questions`}
+                // name={`rounds[${roundIndex}].questions`}
+                name="question"
+                value={quizData.rounds[roundIndex].questions}
+                //   onChange={(e) => handleInputChange(e, roundIndex)}
                 onChange={handleInputChange}
+                required
               />
             </div>
-          ))}
 
-          <div>
-            <label htmlFor={`rounds[${roundIndex}].corrects`}>
-              Correct Response:
-            </label>
-            <select
-              id={`rounds[${roundIndex}].corrects`}
-              name={`rounds[${roundIndex}].corrects`}
-              value={round.corrects[0]}
-              //   onChange={(e) => handleInputChange(e, roundIndex)}
-              onChange={handleInputChange}
-            >
-              {round.responses.map((_, index) => (
-                <option key={index} value={index}>
-                  {index + 1}
-                </option>
-              ))}
-            </select>
+            {round.reponses.map((response, responseIndex) => (
+              <div key={responseIndex}>
+                <label
+                  htmlFor={`rounds[${roundIndex}].reponses[${responseIndex}]`}
+                >
+                  Response {responseIndex + 1}:
+                </label>
+                <input
+                  type="text"
+                  id={`rounds[${roundIndex}].reponses[${responseIndex}]`}
+                  name={`rounds[${roundIndex}].reponses[${responseIndex}]`}
+                  value={response}
+                  // onChange={(e) => handleInputChange(e, roundIndex, responseIndex)}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+            ))}
+
+            <div>
+              <label htmlFor={`rounds[${roundIndex}].corrects`}>
+                Correct Response:
+              </label>
+              <select
+                id={`rounds[${roundIndex}].corrects`}
+                name={`rounds[${roundIndex}].corrects`}
+                value={round.corrects[0]}
+                //   onChange={(e) => handleInputChange(e, roundIndex)}
+                onChange={handleInputChange}
+              >
+                {round.reponses.map((_, index) => (
+                  <option key={index} value={index}>
+                    {index + 1}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              {/* <button type="button" onClick={() => handleRemoveRound(roundIndex)}>
+              Remove Round
+            </button>
+            <button type="button" onClick={handleAddRound}>
+              Add Round
+            </button> */}
+
+              <button type="submit">Create Quiz</button>
+            </div>
           </div>
-
-          <button type="button" onClick={() => handleRemoveRound(roundIndex)}>
-            Remove Round
-          </button>
-        </div>
-      ))}
-
-      <button type="button" onClick={handleAddRound}>
-        Add Round
-      </button>
-
-      <button type="submit">Create Quiz</button>
-    </form>
+        ))}
+      </form>
+    </>
   )
 }
 

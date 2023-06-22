@@ -1,0 +1,62 @@
+/* NewQuizForm CSS */
+.quiz-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .quiz-form-container label {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .quiz-form-container input[type="text"],
+  .quiz-form-container select {
+    width: 300px;
+    padding: 8px;
+    margin: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .quiz-form-container button[type="button"],
+  .quiz-form-container button[type="submit"] {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4caf50;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .quiz-form-container button[type="button"]:hover,
+  .quiz-form-container button[type="submit"]:hover {
+    background-color: #45a049;
+  }
+  
+  .quiz-form-container .round-container {
+    margin-top: 20px;
+  }
+  
+  .quiz-form-container .round-container h3 {
+    margin-bottom: 10px;
+  }
+  
+  .quiz-form-container .round-container button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f44336;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .quiz-form-container .round-container button:hover {
+    background-color: #d32f2f;
+  }
+  

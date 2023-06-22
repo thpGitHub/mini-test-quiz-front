@@ -1,9 +1,10 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {Link, useNavigate, useParams} from 'react-router-dom'
+import './quizDetails.css'
 
 import Alert, {AlertColor} from '@mui/material/Alert'
 import useFetchQuizs from '../../hooks/useFetchQuizs'
-import QuizContext from '../../context/QuizContext'
+import {QuizContext} from '../../context/QuizContext'
 
 // type QuizListProps = {
 //   quizs: {
@@ -17,16 +18,49 @@ import QuizContext from '../../context/QuizContext'
 //     name: string
 //   }[]
 // }
+interface QuizData {
+  name: string
+  rounds: {
+    questions: string
+    responses: string[]
+    corrects: number[]
+  }[]
+  categories: string[]
+}
 
 const QuizDetails = () => {
-  const {quizs} = useFetchQuizs()
-  // const quizs = useContext(QuizContext)
+  // const {quizs} = useFetchQuizs()
+  // const {quizs} = useContext(QuizContext)
+  const [quizs, setQuizs] = useState<any>()
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [showAlert, setShowAlert] = useState<AlertColor | undefined>()
   const [messageAlert, setMessageAlert] = useState('')
   const [score, setScore] = useState(0)
-  
+
+  const fetchQuizs = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/quiz')
+      if (!response.ok) {
+        throw new Error('Failed to fetch quizs')
+      }
+      const data: QuizData = await response.json()
+      setQuizs(data)
+    } catch (err) {
+      setError((err as Error).message)
+      console.log(err)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    console.log('in useeffect')
+    fetchQuizs()
+  }, [])
+
   const navigate = useNavigate()
   const {id} = useParams()
 
@@ -34,17 +68,21 @@ const QuizDetails = () => {
     return <div>Loading...</div>
   }
 
-  const quizName = quizs[Number(id)].name
+  const quizName = quizs[Number(id)]?.name
   const questionDescription =
-    quizs[Number(id)].rounds[currentQuestion].questions
+    quizs[Number(id)]?.rounds[currentQuestion]?.questions
 
+  // const responsesList: string[] = quizs[Number(id)].rounds[currentQuestion].responses
+  // @ts-ignore
   const responsesList: string[] =
-    quizs[Number(id)].rounds[currentQuestion].responses
+    quizs[Number(id)]?.rounds[currentQuestion]?.reponses
+  console.log('responsesList', responsesList)
+  console.log('Quizs under responsesList', quizs)
 
   const indexGoodResponse =
-    quizs[Number(id)].rounds[currentQuestion].corrects[0]
+    quizs[Number(id)]?.rounds[currentQuestion]?.corrects[0]
 
-  const numberOfQuestions = quizs[Number(id)].rounds.length
+  const numberOfQuestions = quizs[Number(id)]?.rounds.length
 
   console.log(quizs)
   console.log('correct', indexGoodResponse)
@@ -90,22 +128,36 @@ const QuizDetails = () => {
 
   return (
     <>
-      {showAlert && <Alert severity={showAlert}>{messageAlert}</Alert>}
+      <div className="quiz-showAlert-container">
+        {showAlert && (
+          <Alert severity={showAlert} className="quiz-details-alert">
+            {messageAlert}
+          </Alert>
+        )}
+      </div>
 
-      <Link to={'/'}>
-        <button>Liste des Quizs</button>
-      </Link>
-      <h2>{quizName}</h2>
-      <p>
-        Question {currentQuestion + 1} : {questionDescription}
-      </p>
-      {responsesList.map((response, index) => {
-        return (
-          <button onClick={() => handleResponse(index)} key={index}>
-            {response}
-          </button>
-        )
-      })}
+      {/* {quizs && ( */}
+      <>
+        <Link to={'/'} className="quiz-details-link">
+          <button className="quiz-details-button">Liste des Quizs</button>
+        </Link>
+        <h2 className="quiz-details-heading">{quizName}</h2>
+        <p className="quiz-details-question">
+          Question {currentQuestion + 1} : {questionDescription}
+        </p>
+        {responsesList?.map((response, index) => {
+          return (
+            <button
+              onClick={() => handleResponse(index)}
+              className="quiz-details-response-button"
+              key={index}
+            >
+              {response}
+            </button>
+          )
+        })}
+      </>
+      {/* )} */}
     </>
   )
 }
