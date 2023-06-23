@@ -51,6 +51,8 @@ const RegisterForm = () => {
         setMessage('Email already exists')
       } else {
         console.error('Error:', axiosError.message)
+        console.log(message);
+        
         setMessage('Registration failed')
       }
     }
