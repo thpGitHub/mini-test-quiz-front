@@ -123,7 +123,8 @@ const NewQuizForm: React.FC = () => {
     e.preventDefault()
 
     try {
-      await axios.post('http://localhost:3000/create', quizData) // Adjust the API endpoint as per your setup
+      // await axios.post('http://localhost:3000/create', quizData) // Adjust the API endpoint as per your setup
+      await axios.post('https://mini-test-quiz-back-production.up.railway.app/create', quizData) // Adjust the API endpoint as per your setup
       alert('Quiz created successfully!')
       // Reset form or redirect to a different page
       setQuizData({
