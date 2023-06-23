@@ -44,6 +44,7 @@ const QuizList = () => {
   useEffect(() => {
     console.log('in useeffect')
     fetchQuizs()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleDeleteQuiz = async (id: number) => {
