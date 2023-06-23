@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
 import './quizList.css'
 
@@ -6,10 +6,6 @@ import {Button} from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
 import axios from 'axios'
-import {QuizContext} from '../../context/QuizContext'
-import useFetchQuizs from '../../hooks/useFetchQuizs'
-import {log} from 'console'
-
 interface QuizData {
   name: string
   rounds: {
@@ -24,13 +20,13 @@ const QuizList = () => {
   const [quizs, setQuizs] = useState<any>()
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  // const {quizs, updateQuizs} = useContext(QuizContext)
-  // const {quizs} = useFetchQuizs()
-  console.log('quiz in QuizList', quizs)
 
   const fetchQuizs = async () => {
     try {
-      const response = await fetch('http://localhost:3000/quiz')
+      // const response = await fetch('http://localhost:3000/quiz')
+      const response = await fetch(
+        'https://mini-test-quiz-back-production.up.railway.app/quiz',
+      )
       if (!response.ok) {
         throw new Error('Failed to fetch quizs')
       }
@@ -38,7 +34,8 @@ const QuizList = () => {
       setQuizs(data)
     } catch (err) {
       setError((err as Error).message)
-      console.log(err)
+      console.log(error)
+      console.log(isLoading)
     } finally {
       setIsLoading(false)
     }
@@ -50,13 +47,11 @@ const QuizList = () => {
   }, [])
 
   const handleDeleteQuiz = async (id: number) => {
-    console.log('quiz ID', id)
-    // await fetchQuizs()
-    console.log('quiz in handleDeleteQuiz', quizs)
-    // updateQuizs()
-
     try {
-      await axios.delete(`http://localhost:3000/quiz/${id}`)
+      // await axios.delete(`http://localhost:3000/quiz/${id}`)
+      await axios.delete(
+        `https://mini-test-quiz-back-production.up.railway.app/quiz/${id}`,
+      )
       fetchQuizs()
     } catch (error) {
       console.error('Failed to delete quiz:', error)

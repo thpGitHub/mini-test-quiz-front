@@ -1,4 +1,4 @@
-import React, {useState, ChangeEvent} from 'react'
+import React, {useState} from 'react'
 import './createQuiz.css'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
@@ -98,26 +98,26 @@ const NewQuizForm: React.FC = () => {
     }
   }
 
-  const handleAddRound = () => {
-    setQuizData(prevData => ({
-      ...prevData,
-      rounds: [
-        ...prevData.rounds,
-        {
-          questions: '',
-          reponses: ['', ''],
-          corrects: [0],
-        },
-      ],
-    }))
-  }
+  // const handleAddRound = () => {
+  //   setQuizData(prevData => ({
+  //     ...prevData,
+  //     rounds: [
+  //       ...prevData.rounds,
+  //       {
+  //         questions: '',
+  //         reponses: ['', ''],
+  //         corrects: [0],
+  //       },
+  //     ],
+  //   }))
+  // }
 
-  const handleRemoveRound = (roundIndex: number) => {
-    setQuizData(prevData => ({
-      ...prevData,
-      rounds: prevData.rounds.filter((_, i) => i !== roundIndex),
-    }))
-  }
+  // const handleRemoveRound = (roundIndex: number) => {
+  //   setQuizData(prevData => ({
+  //     ...prevData,
+  //     rounds: prevData.rounds.filter((_, i) => i !== roundIndex),
+  //   }))
+  // }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

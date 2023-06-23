@@ -18,7 +18,8 @@ const useFetchQuizs = () => {
   useEffect(() => {
     const fetchQuizs = async () => {
       try {
-        const response = await fetch('http://localhost:3000/quiz')
+        // const response = await fetch('http://localhost:3000/quiz')
+        const response = await fetch('https://mini-test-quiz-back-production.up.railway.app/quiz')
         if (!response.ok) {
           throw new Error('Failed to fetch quizs')
         }

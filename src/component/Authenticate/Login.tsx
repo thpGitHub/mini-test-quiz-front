@@ -1,6 +1,6 @@
 import React, {useState, ChangeEvent, FormEvent} from 'react'
 import axios from 'axios'
-import {Link, useNavigate} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import './login.css'
 import Home from '../../component/Home/home'
 import Alert, {AlertColor} from '@mui/material/Alert'
@@ -12,7 +12,7 @@ const LoginForm = () => {
   const [showAlert, setShowAlert] = useState<AlertColor | undefined>()
   const [messageAlert, setMessageAlert] = useState('')
 
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value)
@@ -26,7 +26,8 @@ const LoginForm = () => {
     e.preventDefault()
 
     try {
-      const response = await axios.post('http://localhost:3000/login', {
+      // const response = await axios.post('http://localhost:3000/login', {
+      const response = await axios.post('https://mini-test-quiz-back-production.up.railway.app/login', {
         email,
         password,
       })

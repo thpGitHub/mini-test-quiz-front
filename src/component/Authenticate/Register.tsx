@@ -22,29 +22,25 @@ const RegisterForm = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    // Perform registration logic here using email and password
-    // For this example, we'll just log the values to the console
 
     try {
-      const response = await axios.post('http://localhost:3000/register', {
-        email,
-        password,
-      })
+      // const response = await axios.post('http://localhost:3000/register', {
+      // const response = await axios.post('https://mini-test-quiz-back-production.up.railway.app/register', {
+      await axios.post(
+        'https://mini-test-quiz-back-production.up.railway.app/register',
+        {
+          email,
+          password,
+        },
+      )
       setShowAlert('success')
       setMessageAlert('Register OK, Login please')
 
       setMessage('Registration successful')
-      // navigate('/')
 
       setTimeout(() => {
         navigate('/')
       }, 3000)
-
-      // if (response.status === 201) {
-      //   setMessage("Registration successful");
-      // } else {
-      //   setMessage("Registration failed");
-      // }
     } catch (error) {
       const axiosError = error as AxiosError<any>
 
@@ -61,7 +57,7 @@ const RegisterForm = () => {
 
     console.log('Email:', email)
     console.log('Password:', password)
-    console.log('Message:', message) // Note: 'message' state may not be updated immediately
+    console.log('Message:', message)
   }
 
   return (
