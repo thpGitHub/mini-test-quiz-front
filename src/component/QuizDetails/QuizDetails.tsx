@@ -47,7 +47,7 @@ const QuizDetails = () => {
   useEffect(() => {
     console.log('in useeffect')
     fetchQuizs()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const navigate = useNavigate()
@@ -61,20 +61,14 @@ const QuizDetails = () => {
   const questionDescription =
     quizs[Number(id)]?.rounds[currentQuestion]?.questions
 
-  // const responsesList: string[] = quizs[Number(id)].rounds[currentQuestion].responses
   // @ts-ignore
   const responsesList: string[] =
     quizs[Number(id)]?.rounds[currentQuestion]?.reponses
-  console.log('responsesList', responsesList)
-  console.log('Quizs under responsesList', quizs)
 
   const indexGoodResponse =
     quizs[Number(id)]?.rounds[currentQuestion]?.corrects[0]
 
   const numberOfQuestions = quizs[Number(id)]?.rounds.length
-
-  console.log(quizs)
-  console.log('correct', indexGoodResponse)
 
   const isGoodResponse = (indexResponse: number): boolean => {
     return indexResponse === indexGoodResponse

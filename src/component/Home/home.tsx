@@ -4,10 +4,10 @@ import Login from '../Authenticate/Login'
 
 const Home = () => {
   const [token, setToken] = useState(false)
-  // const {quizs} = useFetchQuizs()
+
   useEffect(() => {
     const token = localStorage.getItem('token')
-    // Check if the token exists in local storage
+    
     if (token) {
       setToken(true)
     }

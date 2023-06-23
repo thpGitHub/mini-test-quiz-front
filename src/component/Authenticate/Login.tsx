@@ -12,8 +12,6 @@ const LoginForm = () => {
   const [showAlert, setShowAlert] = useState<AlertColor | undefined>()
   const [messageAlert, setMessageAlert] = useState('')
 
-  // const navigate = useNavigate()
-
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value)
   }
@@ -27,10 +25,13 @@ const LoginForm = () => {
 
     try {
       // const response = await axios.post('http://localhost:3000/login', {
-      const response = await axios.post('https://mini-test-quiz-back-production.up.railway.app/login', {
-        email,
-        password,
-      })
+      const response = await axios.post(
+        'https://mini-test-quiz-back-production.up.railway.app/login',
+        {
+          email,
+          password,
+        },
+      )
       if (response.status === 200) {
         setShowAlert('success')
         setMessageAlert('Login OK')
@@ -41,24 +42,16 @@ const LoginForm = () => {
 
         const token = response.data.token
         localStorage.setItem('token', token)
-        // navigate('/')
 
-        // setTimeout(() => {
-        //   navigate('/')
-        // }, 3000)
         setTimeout(() => {
           setChangeRoute(true)
         }, 3000)
-        console.log('Token222:', token)
       } else {
         console.error('Login Error:', response.data.error)
       }
     } catch (error) {
       console.error('Error:', (error as Error).message)
     }
-
-    console.log('Email:', email)
-    console.log('Password:', password)
   }
 
   return (

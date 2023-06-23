@@ -34,9 +34,6 @@ const NewQuizForm: React.FC = () => {
     const fieldName: string = e.target.name
     const fieldValue: string = e.target.value
 
-    console.log('fieldName', fieldName)
-    console.log('fieldValue', fieldValue)
-
     if (fieldName === 'name') {
       setQuizData(prevQuizData => ({
         ...prevQuizData,
@@ -55,7 +52,7 @@ const NewQuizForm: React.FC = () => {
         ],
       }))
     }
-    // `rounds[${roundIndex}].responses[${responseIndex}]`
+
     if (fieldName === 'rounds[0].reponses[0]') {
       console.log('fieldResponse', fieldName)
 
@@ -82,10 +79,8 @@ const NewQuizForm: React.FC = () => {
         ],
       }))
     }
-    // `rounds[${roundIndex}].corrects`
-    if (fieldName === 'rounds[0].corrects') {
-      console.log('correct', fieldName)
 
+    if (fieldName === 'rounds[0].corrects') {
       setQuizData(prevQuizData => ({
         ...prevQuizData,
         rounds: [
@@ -98,35 +93,17 @@ const NewQuizForm: React.FC = () => {
     }
   }
 
-  // const handleAddRound = () => {
-  //   setQuizData(prevData => ({
-  //     ...prevData,
-  //     rounds: [
-  //       ...prevData.rounds,
-  //       {
-  //         questions: '',
-  //         reponses: ['', ''],
-  //         corrects: [0],
-  //       },
-  //     ],
-  //   }))
-  // }
-
-  // const handleRemoveRound = (roundIndex: number) => {
-  //   setQuizData(prevData => ({
-  //     ...prevData,
-  //     rounds: prevData.rounds.filter((_, i) => i !== roundIndex),
-  //   }))
-  // }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     try {
       // await axios.post('http://localhost:3000/create', quizData) // Adjust the API endpoint as per your setup
-      await axios.post('https://mini-test-quiz-back-production.up.railway.app/create', quizData) // Adjust the API endpoint as per your setup
+      await axios.post(
+        'https://mini-test-quiz-back-production.up.railway.app/create',
+        quizData,
+      )
       alert('Quiz created successfully!')
-      // Reset form or redirect to a different page
+
       setQuizData({
         name: '',
         rounds: [
@@ -173,10 +150,8 @@ const NewQuizForm: React.FC = () => {
               <input
                 type="text"
                 id={`rounds[${roundIndex}].questions`}
-                // name={`rounds[${roundIndex}].questions`}
                 name="question"
                 value={quizData.rounds[roundIndex].questions}
-                //   onChange={(e) => handleInputChange(e, roundIndex)}
                 onChange={handleInputChange}
                 required
               />
@@ -194,7 +169,6 @@ const NewQuizForm: React.FC = () => {
                   id={`rounds[${roundIndex}].reponses[${responseIndex}]`}
                   name={`rounds[${roundIndex}].reponses[${responseIndex}]`}
                   value={response}
-                  // onChange={(e) => handleInputChange(e, roundIndex, responseIndex)}
                   onChange={handleInputChange}
                   required
                 />
@@ -209,7 +183,6 @@ const NewQuizForm: React.FC = () => {
                 id={`rounds[${roundIndex}].corrects`}
                 name={`rounds[${roundIndex}].corrects`}
                 value={round.corrects[0]}
-                //   onChange={(e) => handleInputChange(e, roundIndex)}
                 onChange={handleInputChange}
               >
                 {round.reponses.map((_, index) => (
@@ -220,13 +193,6 @@ const NewQuizForm: React.FC = () => {
               </select>
             </div>
             <div>
-              {/* <button type="button" onClick={() => handleRemoveRound(roundIndex)}>
-              Remove Round
-            </button>
-            <button type="button" onClick={handleAddRound}>
-              Add Round
-            </button> */}
-
               <button type="submit">Create Quiz</button>
             </div>
           </div>

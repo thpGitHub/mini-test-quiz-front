@@ -54,10 +54,6 @@ const RegisterForm = () => {
         setMessage('Registration failed')
       }
     }
-
-    console.log('Email:', email)
-    console.log('Password:', password)
-    console.log('Message:', message)
   }
 
   return (
