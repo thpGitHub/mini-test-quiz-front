@@ -50,7 +50,14 @@ const LoginForm = () => {
         console.error('Login Error:', response.data.error)
       }
     } catch (error) {
-      console.error('Error:', (error as Error).message)
+      // console.error('Error  axios:', (error as AxiosError)?.response?.data)
+      // console.error('Error message :', (error as Error).message)
+
+      if (axios.isAxiosError(error)) {
+        const messageAxiosError = error?.response?.data.error
+        setShowAlert('error')
+        setMessageAlert(messageAxiosError)
+      }
     }
   }
 
