@@ -24,14 +24,23 @@ const LoginForm = () => {
     e.preventDefault()
 
     try {
+      const baseUrl =
+        process.env.NODE_ENV === 'development'
+          ? 'http://localhost:3000'
+          : 'https://mini-test-quiz-back-production.up.railway.app'
+
+      const response = await axios.post(`${baseUrl}/login`, {
+        email,
+        password,
+      })
       // const response = await axios.post('http://localhost:3000/login', {
-      const response = await axios.post(
-        'https://mini-test-quiz-back-production.up.railway.app/login',
-        {
-          email,
-          password,
-        },
-      )
+      // const response = await axios.post(
+      //   'https://mini-test-quiz-back-production.up.railway.app/login',
+      //   {
+      //     email,
+      //     password,
+      //   },
+      // )
       if (response.status === 200) {
         setShowAlert('success')
         setMessageAlert('Login OK')
@@ -46,17 +55,14 @@ const LoginForm = () => {
         setTimeout(() => {
           setChangeRoute(true)
         }, 3000)
-      } else {
-        console.error('Login Error:', response.data.error)
       }
     } catch (error) {
-      // console.error('Error  axios:', (error as AxiosError)?.response?.data)
-      // console.error('Error message :', (error as Error).message)
-
       if (axios.isAxiosError(error)) {
         const messageAxiosError = error?.response?.data.error
         setShowAlert('error')
         setMessageAlert(messageAxiosError)
+      } else {
+        console.error(error)
       }
     }
   }
