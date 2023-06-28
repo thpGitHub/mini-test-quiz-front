@@ -1,0 +1,1 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c1fcf3cc-c227-463b-874b-8d37896b2771/deploy-status)](https://app.netlify.com/sites/shiny-gnome-ea1c1f/deploys)
