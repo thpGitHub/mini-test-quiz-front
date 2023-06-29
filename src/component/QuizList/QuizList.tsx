@@ -23,14 +23,14 @@ const QuizList = () => {
 
   const fetchQuizs = async () => {
     try {
-      // const response = await fetch('http://localhost:3000/quiz')
-      const response = await fetch(
-        'https://mini-test-quiz-back-production.up.railway.app/quiz',
-      )
-      if (!response.ok) {
-        throw new Error('Failed to fetch quizs')
-      }
-      const data: QuizData = await response.json()
+      const baseUrl =
+        process.env.NODE_ENV === 'development'
+          ? 'http://localhost:3000'
+          : 'https://mini-test-quiz-back-production.up.railway.app'
+
+      const response = await axios.get(`${baseUrl}/quiz`)
+
+      const data: QuizData = response.data
       setQuizs(data)
     } catch (err) {
       setError((err as Error).message)

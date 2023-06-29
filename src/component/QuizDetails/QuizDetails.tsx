@@ -3,6 +3,7 @@ import {Link, useNavigate, useParams} from 'react-router-dom'
 import './quizDetails.css'
 
 import Alert, {AlertColor} from '@mui/material/Alert'
+import axios from 'axios'
 interface QuizData {
   name: string
   rounds: {
@@ -25,21 +26,24 @@ const QuizDetails = () => {
 
   const fetchQuizs = async () => {
     try {
-      // const response = await fetch('http://localhost:3000/quiz')
-      const response = await fetch(
-        'https://mini-test-quiz-back-production.up.railway.app/quiz',
-      )
-      if (!response.ok) {
+      const baseUrl =
+        process.env.NODE_ENV === 'development'
+          ? 'http://localhost:3000'
+          : 'https://mini-test-quiz-back-production.up.railway.app'
+
+      const response = await axios.get(`${baseUrl}/quiz`)
+
+      if (response.status !== 200) {
         throw new Error('Failed to fetch quizs')
       }
-      const data: QuizData = await response.json()
+
+      const data: QuizData = response.data
       setQuizs(data)
     } catch (err) {
       setError((err as Error).message)
       console.log(error)
     } finally {
       console.log(isLoading)
-
       setIsLoading(false)
     }
   }

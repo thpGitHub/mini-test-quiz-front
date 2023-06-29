@@ -1,71 +1,21 @@
-import React, {useState, ChangeEvent, FormEvent} from 'react'
-import axios from 'axios'
+// import React from 'react'
 import {Link} from 'react-router-dom'
-import './login.css'
+import useLogin from '../../hooks/useLogin'
+import Alert from '@mui/material/Alert'
 import Home from '../../component/Home/home'
-import Alert, {AlertColor} from '@mui/material/Alert'
+import './login.css'
 
-const LoginForm = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [changeRoute, setChangeRoute] = useState(false)
-  const [showAlert, setShowAlert] = useState<AlertColor | undefined>()
-  const [messageAlert, setMessageAlert] = useState('')
-
-  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value)
-  }
-
-  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value)
-  }
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault()
-
-    try {
-      const baseUrl =
-        process.env.NODE_ENV === 'development'
-          ? 'http://localhost:3000'
-          : 'https://mini-test-quiz-back-production.up.railway.app'
-
-      const response = await axios.post(`${baseUrl}/login`, {
-        email,
-        password,
-      })
-      // const response = await axios.post('http://localhost:3000/login', {
-      // const response = await axios.post(
-      //   'https://mini-test-quiz-back-production.up.railway.app/login',
-      //   {
-      //     email,
-      //     password,
-      //   },
-      // )
-      if (response.status === 200) {
-        setShowAlert('success')
-        setMessageAlert('Login OK')
-
-        setTimeout(() => {
-          setShowAlert(undefined)
-        }, 3000)
-
-        const token = response.data.token
-        localStorage.setItem('token', token)
-
-        setTimeout(() => {
-          setChangeRoute(true)
-        }, 3000)
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const messageAxiosError = error?.response?.data.error
-        setShowAlert('error')
-        setMessageAlert(messageAxiosError)
-      } else {
-        console.error(error)
-      }
-    }
-  }
+const Login = () => {
+  const {
+    email,
+    password,
+    changeRoute,
+    showAlert,
+    messageAlert,
+    handleEmailChange,
+    handlePasswordChange,
+    handleSubmit,
+  } = useLogin()
 
   return (
     <>
@@ -124,4 +74,4 @@ const LoginForm = () => {
   )
 }
 
-export default LoginForm
+export default Login
