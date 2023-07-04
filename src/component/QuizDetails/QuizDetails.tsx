@@ -23,21 +23,27 @@ const QuizDetails = () => {
 
   return (
     <>
-      <div className="quiz-showAlert-container" aria-live='assertive'>
+      <div className="quiz-details-showAlert-container" aria-live="assertive">
         {showAlert && <Alert severity={showAlert}>{messageAlert}</Alert>}
       </div>
 
-      <div className="quiz-details-container">
-        <Link to={'/'} className="quiz-details-link">
-          <button className="quiz-details-button">
+      <nav className='quiz-details-nav'>
+        <Link to={'/'} className="quiz-details-nav-link">
+          <button className="quiz-details-nav-button">
             Retour liste des Quizs
           </button>
         </Link>
+      </nav>
+
+      <div className="quiz-details-container">
         {quizName && (
           <>
             <h2 className="quiz-details-heading">{quizName}</h2>
             <p className="quiz-details-question">
-              Question {currentQuestion + 1} : {questionDescription}
+              <span className="quiz-details-question-number">
+                Question {currentQuestion + 1} :{' '}
+              </span>
+              {questionDescription}
             </p>
             {responsesList?.map((response, index) => {
               return (

@@ -3,16 +3,6 @@ import {useNavigate} from 'react-router-dom'
 import {fetchQuizs} from '../services/quizService'
 import {AlertColor} from '@mui/material'
 
-export type QuizData = {
-  name: string
-  rounds: {
-    questions: string
-    responses: string[]
-    corrects: number[]
-  }[]
-  categories: string[]
-}
-
 const useQuizDetails = (id: string | undefined) => {
   const [quizs, setQuizs] = useState<any>()
   const [isLoading, setIsLoading] = useState(true)
