@@ -10,9 +10,9 @@ export const fetchQuizs = async () => {
 
     const response = await axios.get(`${baseUrl}/quiz`)
 
-    if (response.status !== 200) {
-      throw new Error('Failed to fetch quizs')
-    }
+    // if (response.status !== 200) {
+    //   throw new Error('Failed to fetch quizs')
+    // }
 
     const data: QuizData = response.data
     return data

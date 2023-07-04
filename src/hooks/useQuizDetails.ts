@@ -32,7 +32,9 @@ const useQuizDetails = (id: string | undefined) => {
         const data = await fetchQuizs()
         setQuizs(data)
       } catch (err) {
-        setError((err as Error).message)
+        // setError((err as Error).message)
+        setShowAlert('error')
+        setMessageAlert('Il y a un problème pour récupérer le quiz demandé')
       } finally {
         setIsLoading(false)
       }

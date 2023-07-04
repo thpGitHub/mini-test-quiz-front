@@ -23,7 +23,7 @@ const QuizDetails = () => {
 
   return (
     <>
-      <div className="quiz-showAlert-container">
+      <div className="quiz-showAlert-container" aria-live='assertive'>
         {showAlert && <Alert severity={showAlert}>{messageAlert}</Alert>}
       </div>
 
@@ -33,21 +33,25 @@ const QuizDetails = () => {
             Retour liste des Quizs
           </button>
         </Link>
-        <h2 className="quiz-details-heading">{quizName}</h2>
-        <p className="quiz-details-question">
-          Question {currentQuestion + 1} : {questionDescription}
-        </p>
-        {responsesList?.map((response, index) => {
-          return (
-            <button
-              onClick={() => handleResponse(index)}
-              className="quiz-details-response-button"
-              key={index}
-            >
-              {response}
-            </button>
-          )
-        })}
+        {quizName && (
+          <>
+            <h2 className="quiz-details-heading">{quizName}</h2>
+            <p className="quiz-details-question">
+              Question {currentQuestion + 1} : {questionDescription}
+            </p>
+            {responsesList?.map((response, index) => {
+              return (
+                <button
+                  onClick={() => handleResponse(index)}
+                  className="quiz-details-response-button"
+                  key={index}
+                >
+                  {response}
+                </button>
+              )
+            })}
+          </>
+        )}
       </div>
     </>
   )
