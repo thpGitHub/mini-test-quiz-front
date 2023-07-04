@@ -16,7 +16,7 @@ export type QuizData = {
 const useQuizDetails = (id: string | undefined) => {
   const [quizs, setQuizs] = useState<any>()
   const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  // const [error, setError] = useState<string | null>(null)
 
   const [currentQuestion, setCurrentQuestion] = useState(0)
 
@@ -97,7 +97,7 @@ const useQuizDetails = (id: string | undefined) => {
   }
 
   return {
-    error,
+    // error,
     quizName,
     isLoading,
     showAlert,
