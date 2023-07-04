@@ -14,7 +14,7 @@ export const fetchQuizs = async () => {
     //   throw new Error('Failed to fetch quizs')
     // }
 
-    const data: QuizData = response.data
+    const data: QuizData[] = response.data
     return data
   } catch (err) {
     throw new Error((err as Error).message)

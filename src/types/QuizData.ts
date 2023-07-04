@@ -2,7 +2,7 @@ export type QuizData = {
   name: string
   rounds: {
     questions: string
-    responses: string[]
+    reponses: string[]
     corrects: number[]
   }[]
   categories: string[]

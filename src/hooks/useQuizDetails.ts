@@ -2,9 +2,10 @@ import {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {fetchQuizs} from '../services/quizService'
 import {AlertColor} from '@mui/material'
+import {QuizData} from '../types/QuizData'
 
 const useQuizDetails = (id: string | undefined) => {
-  const [quizs, setQuizs] = useState<any>()
+  const [quizs, setQuizs] = useState<QuizData[] | undefined>()
   const [isLoading, setIsLoading] = useState(true)
   // const [error, setError] = useState<string | null>(null)
 
@@ -38,9 +39,7 @@ const useQuizDetails = (id: string | undefined) => {
   const questionDescription =
     quizs?.[Number(id)]?.rounds[currentQuestion]?.questions
 
-  // @ts-ignore
-  const responsesList: string[] =
-    quizs?.[Number(id)]?.rounds[currentQuestion]?.reponses
+  const responsesList = quizs?.[Number(id)]?.rounds[currentQuestion]?.reponses
 
   const indexGoodResponse =
     quizs?.[Number(id)]?.rounds[currentQuestion]?.corrects[0]
@@ -52,7 +51,8 @@ const useQuizDetails = (id: string | undefined) => {
   }
 
   const isLastQuestion = (): boolean => {
-    return currentQuestion === numberOfQuestions - 1
+    // return currentQuestion === numberOfQuestions - 1
+    return currentQuestion === (numberOfQuestions ?? 0) - 1
   }
 
   const handleResponse = (indexResponse: number) => {
