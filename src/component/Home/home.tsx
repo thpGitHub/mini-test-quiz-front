@@ -6,19 +6,18 @@ const Home = () => {
   const [token, setToken] = useState(false)
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    
-    if (token) {
+    const storedToken = localStorage.getItem('token')
+
+    if (storedToken) {
       setToken(true)
     }
   }, [])
 
-  return (
-    <div>
-      {/* <QuizList quizs={quizs} /> */}
-      {token ? <QuizList /> : <Login />}
-    </div>
-  )
+  const renderContent = () => {
+    return token ? <QuizList /> : <Login />
+  }
+
+  return <div>{renderContent()}</div>
 }
 
 export default Home

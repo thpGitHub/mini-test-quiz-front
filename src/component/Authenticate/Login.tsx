@@ -2,7 +2,7 @@
 import {Link} from 'react-router-dom'
 import useLogin from '../../hooks/useLogin'
 import Alert from '@mui/material/Alert'
-import Home from '../../component/Home/home'
+import Home from '../Home/Home'
 import './login.css'
 
 const Login = () => {
