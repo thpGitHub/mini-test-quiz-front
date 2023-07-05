@@ -6,7 +6,7 @@ const Home = () => {
   const [token, setToken] = useState(false)
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token')
+    const storedToken = localStorage.getItem('token');
 
     if (storedToken) {
       setToken(true)

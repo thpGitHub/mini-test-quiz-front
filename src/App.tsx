@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css'
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
-import Home from './component/Home/Home'
+import Home from './component/Home/home'
 import QuizDetails from './component/QuizDetails/QuizDetails'
 import CreateQuiz from './component/CreateQuiz/CreateQuiz'
 import QuizContextProvider from './context/QuizContext'
