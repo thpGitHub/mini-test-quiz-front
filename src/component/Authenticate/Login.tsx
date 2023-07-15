@@ -35,12 +35,13 @@ const Login = () => {
                 Email:
               </label>
               <input
-                type="email"
                 id="email"
-                className="login-form-input"
+                type="email"
                 value={email}
                 onChange={handleEmailChange}
                 required
+                className="login-form-input"
+                autoComplete="username"
               />
             </div>
             <div className="login-form-label-container">
@@ -48,12 +49,12 @@ const Login = () => {
                 Password:
               </label>
               <input
-                type="password"
                 id="password"
-                className="login-form-input"
+                type="password"
                 value={password}
                 onChange={handlePasswordChange}
                 required
+                className="login-form-input"
                 autoComplete="current-password"
               />
             </div>
