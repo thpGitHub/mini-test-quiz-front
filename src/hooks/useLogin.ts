@@ -41,7 +41,7 @@ const useLogin = () => {
         process.env.NODE_ENV === 'development'
           ? 'http://localhost:3000'
           : 'https://mini-test-quiz-back-production.up.railway.app'
-
+      console.log(process.env.NODE_ENV)
       const response = await axios.post(`${baseUrl}/login`, {
         email: state.email,
         password: state.password,

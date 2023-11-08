@@ -35,10 +35,10 @@ const QuizContextProvider = ({children}: QuizContextProviderProps) => {
 
   const fetchQuizs = async () => {
     try {
-      // const response = await axios.get('http://localhost:3000/quiz');
-      const response = await axios.get(
-        'https://mini-test-quiz-back-production.up.railway.app/quiz',
-      )
+      const response = await axios.get('http://localhost:3000/quiz');
+      // const response = await axios.get(
+      //   'https://mini-test-quiz-back-production.up.railway.app/quiz',
+      // )
       const data: Quiz[] = response.data
       setQuizs(data)
     } catch (err) {
